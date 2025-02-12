@@ -32,7 +32,6 @@ class _CounterScreenState extends State<CounterScreen> {
   /// and then saves the updated counter value to shared preferences using the key 'counter'.
   ///
   /// [value] - The new value to set the counter to.
-
   void _updateCounter(int value) {
     setState(() => _counter = value);
     _prefs.setInt('counter', _counter);
@@ -49,10 +48,20 @@ class _CounterScreenState extends State<CounterScreen> {
         title: const Text('Shared Preference Counter'),
       ),
       body: Center(
-        child: Text(
-          'counter value is \n $_counter',
-          style: Theme.of(context).textTheme.headlineSmall,
-          textAlign: TextAlign.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'counter value is',
+              style: Theme.of(context).textTheme.headlineSmall,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.displayMedium,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
       floatingActionButton: Column(
