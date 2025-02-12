@@ -3,7 +3,7 @@
 ## Overview
 This Flutter application demonstrates the usage of `SharedPreferences` to persist and retrieve a counter value. The counter value is stored locally and is preserved even after the app is closed and reopened.
 
-https://github.com/user-attachments/assets/67e0dbe1-573b-4be3-b2ab-e5320b2522e9
+![shared preference counter](https://github.com/user-attachments/assets/cd7a0dc2-7941-4adb-9fce-e8c92024f7a8)
 
 ## Features
 - Increment and decrement a counter value.
