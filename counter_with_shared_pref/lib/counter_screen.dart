@@ -21,7 +21,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Future<void> _loadCounter() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _counter = prefs.getInt('counter') ?? 0;
+      _counter = prefs.getInt('counter')!;
     });
   }
 
