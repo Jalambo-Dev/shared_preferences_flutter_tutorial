@@ -18,8 +18,9 @@ class _CounterScreenState extends State<CounterScreen> {
       ),
       body: Center(
         child: Text(
-          'counter value is $_counter',
+          'counter value is \n $_counter',
           style: Theme.of(context).textTheme.headlineSmall,
+          textAlign: TextAlign.center,
         ),
       ),
       floatingActionButton: Column(
@@ -33,6 +34,10 @@ class _CounterScreenState extends State<CounterScreen> {
           FloatingActionButton(
             onPressed: _decrementCounter,
             child: const Icon(Icons.remove),
+          ),
+          FloatingActionButton(
+            onPressed: _resetCounter,
+            child: const Icon(Icons.exposure_zero),
           ),
         ],
       ),
@@ -48,6 +53,12 @@ class _CounterScreenState extends State<CounterScreen> {
   void _decrementCounter() {
     setState(() {
       _counter--;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
     });
   }
 }
