@@ -14,7 +14,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shared Preference Counter'),
+        title: const Text('Shared Preference Counter'),
       ),
       body: Center(
         child: Text(
@@ -27,23 +27,27 @@ class _CounterScreenState extends State<CounterScreen> {
         spacing: 18,
         children: [
           FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _counter++;
-              });
-            },
-            child: Icon(Icons.add),
+            onPressed: _incrementCounter,
+            child: const Icon(Icons.add),
           ),
           FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _counter--;
-              });
-            },
-            child: Icon(Icons.remove),
+            onPressed: _decrementCounter,
+            child: const Icon(Icons.remove),
           ),
         ],
       ),
     );
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
   }
 }
