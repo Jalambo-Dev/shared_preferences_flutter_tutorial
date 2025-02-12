@@ -1,16 +1,44 @@
-# counter_with_shared_pref
+# Shared Preferences Counter App
 
-A new Flutter project.
+## Overview
+This Flutter application demonstrates the usage of `SharedPreferences` to persist and retrieve a counter value. The counter value is stored locally and is preserved even after the app is closed and reopened.
 
-## Getting Started
+## Features
+- Increment and decrement a counter value.
+- Reset the counter.
+- Persist the counter value using `SharedPreferences`.
 
-This project is a starting point for a Flutter application.
+## Dependencies
+This project requires the following Flutter package:
+```yaml
+  shared_preferences: ^latest_version
+```
+Make sure to add it to your `pubspec.yaml` file and run:
+```sh
+flutter pub get
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
+1. Clone the repository or copy the project files.
+2. Open the project in your preferred IDE.
+3. Run the app using:
+   ```sh
+   flutter run
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Code Explanation
+- **Initialization**: `SharedPreferences` is initialized in `initState()`, and the stored counter value is retrieved.
+- **Counter Management**: The counter value is updated and stored in `SharedPreferences` whenever modified.
+- **UI**: Displays the counter value and provides buttons to increment, decrement, and reset it.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Usage
+- Press the **+** button to increase the counter.
+- Press the **-** button to decrease the counter.
+- Press the **reset** button to set the counter to `0`.
+
+## Author
+[Ahmed Jalambo](https://github.com/Jalambo-Dev)
+
+## License
+This project is open-source under the MIT License.
+
