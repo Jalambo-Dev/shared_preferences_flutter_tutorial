@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -9,6 +10,41 @@ class CounterScreen extends StatefulWidget {
 
 class _CounterScreenState extends State<CounterScreen> {
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCounter();
+  }
+
+  // Load counter value from SharedPreferences
+  Future<void> _loadCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _counter = prefs.getInt('counter') ?? 0;
+    });
+  }
+
+  // Save counter value to SharedPreferences
+  Future<void> _saveCounter() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('counter', _counter);
+  }
+
+  void _incrementCounter() {
+    setState(() => _counter++);
+    _saveCounter();
+  }
+
+  void _decrementCounter() {
+    setState(() => _counter--);
+    _saveCounter();
+  }
+
+  void _resetCounter() {
+    setState(() => _counter = 0);
+    _saveCounter();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,23 +78,5 @@ class _CounterScreenState extends State<CounterScreen> {
         ],
       ),
     );
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-
-  void _resetCounter() {
-    setState(() {
-      _counter = 0;
-    });
   }
 }
