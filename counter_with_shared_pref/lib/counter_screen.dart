@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,41 +11,36 @@ class CounterScreen extends StatefulWidget {
 
 class _CounterScreenState extends State<CounterScreen> {
   int _counter = 0;
+  late SharedPreferences _prefs;
 
   @override
   void initState() {
     super.initState();
-    _loadCounter();
+    _initPrefs();
   }
 
-  // Load counter value from SharedPreferences
-  Future<void> _loadCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _counter = prefs.getInt('counter')!;
-    });
+  /// Initialize [_prefs] and load the value of the 'counter' preference,
+  /// updating the state of this widget with the loaded value.
+  Future<void> _initPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() => _counter = _prefs.getInt('counter')!);
   }
 
-  // Save counter value to SharedPreferences
-  Future<void> _saveCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('counter', _counter);
+  /// Updates the counter with the given [value] and persists it to shared preferences.
+  ///
+  /// This method updates the [_counter] state variable with the provided [value],
+  /// and then saves the updated counter value to shared preferences using the key 'counter'.
+  ///
+  /// [value] - The new value to set the counter to.
+
+  void _updateCounter(int value) {
+    setState(() => _counter = value);
+    _prefs.setInt('counter', _counter);
   }
 
-  void _incrementCounter() {
-    setState(() => _counter++);
-    _saveCounter();
-  }
-
-  void _decrementCounter() {
-    setState(() => _counter--);
-    _saveCounter();
-  }
-
-  void _resetCounter() {
-    setState(() => _counter = 0);
-    _saveCounter();
-  }
+  void _incrementCounter() => _updateCounter(++_counter);
+  void _decrementCounter() => _updateCounter(--_counter);
+  void _resetCounter() => _updateCounter(0);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +69,7 @@ class _CounterScreenState extends State<CounterScreen> {
           ),
           FloatingActionButton(
             onPressed: _resetCounter,
-            child: const Icon(Icons.exposure_zero),
+            child: const Icon(CupertinoIcons.restart),
           ),
         ],
       ),
