@@ -1,3 +1,4 @@
+import 'package:counter_with_shared_pref/counter_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,21 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Hello World !')),
+      home: const CounterScreen(),
     );
   }
 }
