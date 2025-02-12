@@ -1,8 +1,8 @@
 import 'package:counter_with_shared_pref/counter_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main(List<String> args) {
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

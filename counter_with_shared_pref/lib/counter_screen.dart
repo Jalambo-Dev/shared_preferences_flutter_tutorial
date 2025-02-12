@@ -46,6 +46,7 @@ class _CounterScreenState extends State<CounterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shared Preference Counter'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
