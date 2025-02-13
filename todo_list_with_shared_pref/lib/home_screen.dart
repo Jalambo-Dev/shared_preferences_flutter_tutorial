@@ -13,6 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController todoController;
   String todo = '';
   List<String> todos = [];
+  int todoIndex = 0;
 
   @override
   void initState() {
@@ -41,6 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _deleteTodo() async {
+    setState(() => todos.removeAt(todoIndex));
+    getIt<CacheHelper>().saveData<List<String>>(key: 'todos', value: todos);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text(todos[index]),
               trailing: IconButton(
                 onPressed: () {
-                  setState(() => todos.removeAt(index));
-                  getIt<CacheHelper>()
-                      .saveData<List<String>>(key: 'todos', value: todos);
+                  todoIndex = index;
+                  _showDeleteTodoDialog(context);
                 },
                 icon: const Icon(Icons.delete),
               ),
@@ -65,15 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showTaskDialog(context);
+          _showAddTodoDialog(context);
         },
         child: const Icon(Icons.add_task_sharp),
       ),
     );
   }
 
-  /// Show the di for adding a new todo
-  void _showTaskDialog(BuildContext context) {
+  /// Show the dialog for adding a new todo
+  void _showAddTodoDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -89,19 +94,49 @@ class _HomeScreenState extends State<HomeScreen> {
                 autofocus: true,
               ),
               const SizedBox(height: 16.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(foregroundColor: Colors.green),
+                onPressed: () {
+                  _addTodo();
+                  Navigator.pop(context);
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// show the dialog for deleting a todo
+  void _showDeleteTodoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Are you sure complete this todo?'),
+              const SizedBox(height: 16.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(foregroundColor: Colors.green),
                     onPressed: () {
-                      _addTodo();
+                      _deleteTodo();
                       Navigator.pop(context);
                     },
-                    child: const Text('Save'),
+                    child: const Text('Yes'),
                   ),
                   ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(foregroundColor: Colors.red),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
+                    child: const Text('No'),
                   ),
                 ],
               ),
