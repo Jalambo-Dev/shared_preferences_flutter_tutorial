@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_toggle_with_shared_pref/home_screen.dart';
@@ -22,9 +24,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _initPrefs() async {
-    _prefs = await SharedPreferences.getInstance();
-    final isDarkMode = _prefs.getBool('isDarkMode') ?? false;
-    setState(() => _isDarkMode = isDarkMode);
+    try {
+      _prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _isDarkMode = _prefs.getBool('isDarkMode') ?? false;
+      });
+    } catch (e) {
+      log('Error loading preferences: $e');
+    }
   }
 
   void _saveThemePrefs() => _prefs.setBool('isDarkMode', _isDarkMode);
