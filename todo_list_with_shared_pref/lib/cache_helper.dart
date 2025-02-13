@@ -1,61 +1,57 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
-  static late SharedPreferences sharedPreferences;
+  static late SharedPreferences _sharedPreferences;
 
-  // Initialize the cache
-  init() async {
-    sharedPreferences = await SharedPreferences.getInstance();
+  /// Initialize the cache
+  Future<void> init() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  // Get a string value from the cache using a key
+  /// Get a string value from the cache using a key
   String? getDataString({required String key}) {
-    return sharedPreferences.getString(key);
+    return _sharedPreferences.getString(key);
   }
 
-  // Save data to the cache using a key
+  /// Save data to the cache using a key
   Future<bool> saveData({required String key, required dynamic value}) async {
-    if (value is bool) {
-      return await sharedPreferences.setBool(key, value);
-    } else if (value is String) {
-      return await sharedPreferences.setString(key, value);
-    } else if (value is int) {
-      return await sharedPreferences.setInt(key, value);
-    } else if (value is double) {
-      return await sharedPreferences.setDouble(key, value);
-    } else {
-      return await sharedPreferences.setStringList(key, value);
+    switch (value.runtimeType) {
+      case const (bool):
+        return await _sharedPreferences.setBool(key, value);
+      case const (String):
+        return await _sharedPreferences.setString(key, value);
+      case const (int):
+        return await _sharedPreferences.setInt(key, value);
+      case const (double):
+        return await _sharedPreferences.setDouble(key, value);
+      case const (List<String>):
+        return await _sharedPreferences.setStringList(key, value);
+      default:
+        throw ArgumentError.value(
+          value,
+          'value',
+          'Unsupported type',
+        );
     }
   }
 
-  // Get any type of data from the cache using a key
+  /// Get any type of data from the cache using a key
   dynamic getData({required String key}) {
-    return sharedPreferences.get(key);
+    return _sharedPreferences.get(key);
   }
 
-  // Remove data from the cache using a key
+  /// Remove data from the cache using a key
   Future<bool> removeData({required String key}) async {
-    return await sharedPreferences.remove(key);
+    return await _sharedPreferences.remove(key);
   }
 
-  // Check if the cache contains a specific key
-  Future<bool> containsKey({required String key}) async {
-    return sharedPreferences.containsKey(key);
+  /// Check if the cache contains a specific key
+  static Future<bool> containsKey({required String key}) async {
+    return _sharedPreferences.containsKey(key);
   }
 
-  // Clear all data from the cache
+  /// Clear all data from the cache
   Future<bool> clearData() async {
-    return sharedPreferences.clear();
-  }
-
-  // Save data to the cache using a key (alternative method)
-  Future<dynamic> put({required String key, required dynamic value}) async {
-    if (value is String) {
-      return await sharedPreferences.setString(key, value);
-    } else if (value is bool) {
-      return await sharedPreferences.setBool(key, value);
-    } else {
-      return await sharedPreferences.setInt(key, value);
-    }
+    return await _sharedPreferences.clear();
   }
 }
