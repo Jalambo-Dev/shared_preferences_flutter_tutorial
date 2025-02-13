@@ -26,9 +26,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initPrefs() async {
     try {
       _prefs = await SharedPreferences.getInstance();
-      setState(() {
-        _isDarkMode = _prefs.getBool('isDarkMode') ?? false;
-      });
+      setState(() => _isDarkMode = _prefs.getBool('isDarkMode') ?? false);
     } catch (e) {
       log('Error loading preferences: $e');
     }
