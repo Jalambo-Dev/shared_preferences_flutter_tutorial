@@ -1,43 +1,53 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
-  static late SharedPreferences _sharedPreferences;
+  late SharedPreferences _sharedPreferences;
 
   /// Initialize the cache
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  /// Get a string value from the cache using a key
-  String? getDataString({required String key}) {
-    return _sharedPreferences.getString(key);
-  }
-
   /// Save data to the cache using a key
-  Future<bool> saveData({required String key, required dynamic value}) async {
-    switch (value.runtimeType) {
-      case const (bool):
+  Future<bool> saveData<T>({required String key, required T value}) async {
+    try {
+      if (value is bool) {
         return await _sharedPreferences.setBool(key, value);
-      case const (String):
+      } else if (value is String) {
         return await _sharedPreferences.setString(key, value);
-      case const (int):
+      } else if (value is int) {
         return await _sharedPreferences.setInt(key, value);
-      case const (double):
+      } else if (value is double) {
         return await _sharedPreferences.setDouble(key, value);
-      case const (List<String>):
+      } else if (value is List<String>) {
         return await _sharedPreferences.setStringList(key, value);
-      default:
-        throw ArgumentError.value(
-          value,
-          'value',
-          'Unsupported type',
-        );
+      } else {
+        throw ArgumentError('Unsupported type: ${value.runtimeType}');
+      }
+    } catch (e) {
+      throw Exception('Error saving data to cache: e');
     }
   }
 
-  /// Get any type of data from the cache using a key
-  dynamic getData({required String key}) {
-    return _sharedPreferences.get(key);
+  /// Get data from the cache using a key
+  T? getData<T>({required String key}) {
+    try {
+      if (T == bool) {
+        return _sharedPreferences.getBool(key) as T?;
+      } else if (T == String) {
+        return _sharedPreferences.getString(key) as T?;
+      } else if (T == int) {
+        return _sharedPreferences.getInt(key) as T?;
+      } else if (T == double) {
+        return _sharedPreferences.getDouble(key) as T?;
+      } else if (T == List<String>) {
+        return _sharedPreferences.getStringList(key) as T?;
+      } else {
+        throw ArgumentError('Unsupported type: T');
+      }
+    } catch (e) {
+      throw Exception('Error retrieving data from cache: e');
+    }
   }
 
   /// Remove data from the cache using a key
@@ -46,7 +56,7 @@ class CacheHelper {
   }
 
   /// Check if the cache contains a specific key
-  static Future<bool> containsKey({required String key}) async {
+  bool containsKey({required String key}) {
     return _sharedPreferences.containsKey(key);
   }
 
