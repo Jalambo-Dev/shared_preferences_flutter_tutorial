@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_with_shared_pref/cache_helper.dart';
+import 'package:todo_list_with_shared_pref/helper/cache_helper.dart';
 import 'package:todo_list_with_shared_pref/home_screen.dart';
-import 'package:todo_list_with_shared_pref/service_locator.dart';
+import 'package:todo_list_with_shared_pref/helper/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
