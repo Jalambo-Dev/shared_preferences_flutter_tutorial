@@ -24,11 +24,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             Text('Press to change theme  :'),
             IconButton(
-              onPressed: () {
-                toogleTheme();
-              },
+              onPressed: () => toogleTheme(),
               icon: Icon(
-                isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
                 size: 42,
               ),
             ),
